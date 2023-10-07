@@ -3,6 +3,7 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 
 import { rootApi } from "./services/rootApi";
 import { counterSliceReducer } from "./slices/counterSlice";
+import { createWrapper } from "next-redux-wrapper";
 
 export const makeStore = () =>
 	configureStore({
@@ -23,3 +24,7 @@ export default store;
 export type AppStoreType = ReturnType<typeof makeStore>;
 export type RootStateType = ReturnType<typeof store.getState>;
 export type AppDispatchType = AppStoreType["dispatch"];
+
+export const wrapper = createWrapper<AppStoreType>(makeStore, {
+	debug: true,
+});
