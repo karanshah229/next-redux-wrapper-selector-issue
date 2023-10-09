@@ -1,29 +1,15 @@
-# Redux Toolkit TypeScript Example
+# Selector not updating when slice data is udpdated
 
-This example shows how to integrate Next.js with [Redux Toolkit](https://redux-toolkit.js.org).
+### Bug Description
 
-The **Redux Toolkit** is a standardized way to write Redux logic (create actions and reducers, setup the store with some default middlewares like redux devtools extension). This example demonstrates each of these features with Next.js
+1. There is a `Counter` RTK Query Service which has a `getCounter` endpoint that gets the `counter` value from an API (Next.js API for this example repo).
 
-## Deploy your own
+2. There is a slice `counterSlice` that has an async thunk that calls the above query using `counterAPI.endpoints.getCounter.initiate()`
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
+3. `extraReducers` - `builder.addMatcher` are used to update `loading`, `error` and `fulfilled` states in the slice.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-redux&project-name=with-redux&repository-name=with-redux)
+4. `AnotherComponent` calls this async thunk using `store.dispatch(fetchCounterDataThunk())`.
 
-## How to use
+5. There is a selector which gets the counter value from the slice defined in `counterSlice` file and used on the `index` page like so `const data = useSelector(getCounter)`.
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
-
-```bash
-npx create-next-app --example with-redux with-redux-app
-```
-
-```bash
-yarn create next-app --example with-redux with-redux-app
-```
-
-```bash
-pnpm create next-app --example with-redux with-redux-app
-```
-
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+6. The data updates in the store that can seen via the Redux DevTools, but the selector in the index page does not receive the updated data.
