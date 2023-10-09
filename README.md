@@ -1,4 +1,4 @@
-# Selector not updating when slice data is udpdated
+# Selector not updating when slice data is updated
 
 ### Bug Description
 
